@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.1 — 2026-11-24
+
+### Fixed
+- On a Chinese system the app showed its English interface. Both languages now ship their own strings table, so the app always matches your system language.
+- In English, the account name in the menu bar switcher could collapse to "…" next to the Recommended badge.
+- Shorter English countdowns (`in 2h 14m`, `in 3d`) and sign-in hint, so nothing is cut off.
+
 ## 0.2.0 — 2026-11-24
 
 ### Added

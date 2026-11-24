@@ -483,7 +483,7 @@
 "未恢复 %@：出口仍不符合规则（%@）" = "Couldn't resume %@: exit still doesn't match rule (%@)";
 "未打开" = "Not open";
 "未检测" = "Not checked";
-"未登录 Claude Code，登录后显示额度" = "Claude Code signed out; sign in to view quota";
+"未登录 Claude Code，登录后显示额度" = "Sign in to Claude Code to see quota";
 "未能恢复 %@" = "Couldn't resume %@";
 "未能打开 %@" = "Couldn't open %@";
 "未能获取出口信息" = "Couldn't get exit info";
@@ -628,9 +628,9 @@
 "还原" = "Restore";
 "还有 %lld 个" = "%lld more";
 "还有 %lld 分钟" = "in %lld min";
-"还有 %lld 天" = "in %lld d";
-"还有 %lld 小时" = "in %lld hr";
-"还有 %lld 小时 %lld 分" = "in %lld hr %lld min";
+"还有 %lld 天" = "in %lldd";
+"还有 %lld 小时" = "in %lldh";
+"还有 %lld 小时 %lld 分" = "in %lldh %lldm";
 "还没有 Claude Code 项目" = "No Claude Code projects";
 "还没有任何账号配置 MCP 服务器。在 Claude Desktop 的“设置 → 开发者”里添加一个，就会自动同步到其他账号。" = "No accounts have MCP servers yet. Add one in Claude Desktop under Settings → Developer to auto-sync it to others.";
 "还没有任何账号配置 MCP 服务器。在 Claude Desktop 的“设置 → 开发者”里添加后，可点“立即同步”合并到其他账号。" = "No accounts have MCP servers yet. Add one in Claude Desktop under Settings → Developer, then click “Sync Now” to merge.";

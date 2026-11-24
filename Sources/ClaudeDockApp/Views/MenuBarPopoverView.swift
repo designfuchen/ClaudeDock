@@ -563,7 +563,10 @@ private struct MenuAccountRow: View {
 
     /// Reserves readable room for the account name and badges so urgent reset text never crushes the identity.
     private var identityMinWidth: CGFloat {
-        76 + (isRecommended ? 38 : 0) + (health.needsAttention ? 18 : 0)
+        // The badge is measured from its localized text: "推荐" is short, "Recommended" is not.
+        let badge = String(localized: "推荐")
+        let badgeWidth = badge.unicodeScalars.reduce(CGFloat(14)) { $0 + ($1.value > 0x2E80 ? 11 : 6.2) }
+        return 76 + (isRecommended ? badgeWidth : 0) + (health.needsAttention ? 18 : 0)
     }
 
     private var identityLine: some View {

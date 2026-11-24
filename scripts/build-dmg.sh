@@ -2,7 +2,7 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
-VERSION="${CLAUDEDOCK_VERSION:-0.2.0}"
+VERSION="${CLAUDEDOCK_VERSION:-0.2.1}"
 # Name the DMG after what's actually inside (never call a single-architecture build "universal").
 ARCH="${CLAUDEDOCK_DMG_ARCH:-}"
 DIST_DIR="$ROOT_DIR/dist"

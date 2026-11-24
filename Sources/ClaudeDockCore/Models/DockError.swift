@@ -141,7 +141,7 @@ public enum SHA256Helper {
 }
 
 public enum DockConstants {
-    public static let version = "0.2.0"
+    public static let version = "0.2.1"
     public static let launcherMarker = "# claudedock-launcher-v1"
     public static let bundleIDPrefix = "io.claudedock.launcher."
 }

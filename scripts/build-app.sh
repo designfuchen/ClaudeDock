@@ -2,7 +2,7 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
-VERSION="${CLAUDEDOCK_VERSION:-0.2.0}"
+VERSION="${CLAUDEDOCK_VERSION:-0.2.1}"
 # CFBundleVersion must be numeric (no "-beta" suffix); CI passes the run number.
 BUILD_NUMBER="${CLAUDEDOCK_BUILD:-1}"
 SHORT_VERSION="${VERSION%%-*}"
