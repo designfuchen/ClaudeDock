@@ -78,7 +78,10 @@ jobs:
         # Plain file names, so `shasum -c SHA256SUMS.txt` works next to the downloaded DMG.
         run: (cd dist && shasum -a 256 "$(basename "$DMG")" > SHA256SUMS.txt && cat SHA256SUMS.txt)
 
+      # Only a signed and notarized build may be published; otherwise keep the artifact on the run only,
+      # so an unsigned CI build can never replace a notarized DMG uploaded by hand.
       - name: Create GitHub Release
+        if: env.HAS_SIGNING == 'true' && env.HAS_NOTARY == 'true'
         uses: softprops/action-gh-release@v2
         with:
           files: |
