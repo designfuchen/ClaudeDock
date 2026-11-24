@@ -30,7 +30,7 @@
 </p>
 
 <p align="center">
-  <img src="docs/assets/demo.gif" alt="ClaudeDock demo: checking quota in the menu bar, switching windows with hotkeys, and continuing a project">
+  <img src="docs/assets/menubar.png" width="840" alt="ClaudeDock menu bar switcher in light and dark mode">
 </p>
 
 ## Why I built this
@@ -74,7 +74,6 @@ The menu bar switcher shows how much quota is *left* for each account—labels r
 
 ClaudeDock reads quota through Claude Code's own usage query without spending tokens. It recommends the account with the most headroom and warns you before the active one runs dry.
 
-![ClaudeDock menu bar switcher](docs/assets/menubar.png)
 
 ### 3. Pick up any Claude Code project from any account
 

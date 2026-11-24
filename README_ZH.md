@@ -24,7 +24,7 @@
 </p>
 
 <p align="center">
-  <img src="docs/assets/demo.gif" alt="ClaudeDock 演示：菜单栏查看剩余额度、快捷键切换窗口、跨账号继续项目">
+  <img src="docs/assets/menubar.png" width="840" alt="ClaudeDock menu bar switcher in light and dark mode">
 </p>
 
 ## 我为什么写这个工具
@@ -57,7 +57,6 @@
 
 每个账号通过独立的 `--user-data-dir` 启动官方原版 `Claude.app`，既不修改也不复制客户端本体。几个号可以同时开着干活，按 <kbd>⌘</kbd><kbd>⌥</kbd><kbd>1</kbd>–<kbd>9</kbd> 直接跳到对应窗口，或者按 <kbd>⌃</kbd><kbd>⌥</kbd><kbd>Space</kbd> 呼出快速切换面板（支持拼音搜索账号和项目）。菜单栏会直接显示当前账号和剩余额度（例如 `Work · 剩 82%`），关掉主窗口还能隐藏程序坞图标，安静待在右上角。登录新号时，内置的登录助手会先暂时收起其他窗口，免得浏览器回调跳错窗。
 
-![ClaudeDock 菜单栏](docs/assets/menubar.png)
 
 ### 2. 5 小时 / 7 天剩余额度一眼看清（不耗 token）
 
