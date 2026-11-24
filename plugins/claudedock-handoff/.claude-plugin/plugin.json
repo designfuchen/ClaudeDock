@@ -1,0 +1,12 @@
+{
+  "name": "claudedock-handoff",
+  "version": "0.1.0",
+  "description": "Discover running Claude Code sessions across ClaudeDock accounts on macOS and coordinate structured cross-account handoffs.",
+  "license": "MIT",
+  "author": {
+    "name": "ClaudeDock Contributors"
+  },
+  "skills": [
+    "./skills/handoff"
+  ]
+}

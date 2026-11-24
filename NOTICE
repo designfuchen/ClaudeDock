@@ -1,0 +1,24 @@
+ClaudeDock — Third-Party Acknowledgments & Inspirations
+=======================================================
+
+ClaudeDock is an independent, clean-room native Swift/SwiftUI macOS application
+and CLI. It is not affiliated with, endorsed by, or supported by Anthropic, PBC.
+"Claude" and "Claude Desktop" are trademarks of Anthropic, PBC.
+
+ClaudeDock builds upon ideas pioneered by the open-source community:
+
+1. claude-multi-desktop (MIT License)
+   https://github.com/jackson-cmd/claude-multi-desktop
+   Inspiration: zero-patch macOS Claude.app multi-instance launchers via
+   Electron's `--user-data-dir`, dynamic badged launcher icons, shared
+   `~/.claude` configuration, and cross-account Claude Code peer discovery.
+
+2. Claude-Cage (MIT License)
+   https://github.com/Lee-xeo/Claude-Cage
+   Inspiration: zero-token quota probing via Claude CLI `control_request:
+   get_usage`, three-way configuration synchronization with backups, passive
+   account identity observation, and fail-closed egress/region discipline.
+
+All source code in ClaudeDock is written from scratch in Swift 6 using native
+Apple frameworks (Foundation, AppKit, SwiftUI, Carbon, ServiceManagement) with
+zero external package dependencies.

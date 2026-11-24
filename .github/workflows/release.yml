@@ -1,0 +1,88 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release-macos:
+    runs-on: macos-15
+    env:
+      # `secrets` can't be used in `if:` directly; expose presence flags instead.
+      HAS_SIGNING: ${{ secrets.DEVELOPER_ID_P12_BASE64 != '' }}
+      HAS_NOTARY: ${{ secrets.APPLE_ID != '' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false   # build scripts never get the repo write token
+
+      - name: Validate tag and extract version
+        id: ver
+        run: |
+          if [[ ! "$GITHUB_REF_NAME" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.]+)?$ ]]; then
+            echo "Tag must look like v1.2.3 or v1.2.3-beta.1, got: $GITHUB_REF_NAME" >&2
+            exit 1
+          fi
+          echo "version=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
+
+      - name: Security & Tests
+        run: |
+          CLAUDEDOCK_RELEASE=1 bash scripts/security-check.sh
+          swift build --build-tests -Xswiftc -warnings-as-errors
+          swift build -c release -Xswiftc -warnings-as-errors
+          swift test
+
+      - name: Import Developer ID certificate
+        if: env.HAS_SIGNING == 'true'
+        env:
+          P12_BASE64: ${{ secrets.DEVELOPER_ID_P12_BASE64 }}
+          P12_PASSWORD: ${{ secrets.DEVELOPER_ID_P12_PASSWORD }}
+        run: |
+          KEYCHAIN="$RUNNER_TEMP/signing.keychain-db"
+          KEYCHAIN_PASSWORD="$(uuidgen)"
+          echo "$P12_BASE64" | base64 --decode > "$RUNNER_TEMP/cert.p12"
+          security create-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN"
+          security set-keychain-settings -lut 3600 "$KEYCHAIN"
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN"
+          security import "$RUNNER_TEMP/cert.p12" -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k "$KEYCHAIN"
+          security set-key-partition-list -S apple-tool:,apple: -s -k "$KEYCHAIN_PASSWORD" "$KEYCHAIN" >/dev/null
+          security list-keychains -d user -s "$KEYCHAIN" $(security list-keychains -d user | tr -d '"')
+          IDENTITY="$(security find-identity -v -p codesigning "$KEYCHAIN" | awk '/Developer ID Application/{print $2; exit}')"
+          test -n "$IDENTITY" || { echo "No Developer ID Application identity in the certificate" >&2; exit 1; }
+          echo "CLAUDEDOCK_SIGN_IDENTITY=$IDENTITY" >> "$GITHUB_ENV"
+          rm -f "$RUNNER_TEMP/cert.p12"
+
+      - name: Build universal .app and .dmg
+        env:
+          CLAUDEDOCK_VERSION: ${{ steps.ver.outputs.version }}
+          CLAUDEDOCK_BUILD: ${{ github.run_number }}
+        run: |
+          bash scripts/build-dmg.sh
+          DMG="dist/ClaudeDock-${{ steps.ver.outputs.version }}-universal.dmg"
+          test -f "$DMG" || { echo "Expected universal DMG $DMG was not produced" >&2; ls dist; exit 1; }
+          echo "DMG=$DMG" >> "$GITHUB_ENV"
+
+      - name: Notarize and staple
+        if: env.HAS_SIGNING == 'true' && env.HAS_NOTARY == 'true'
+        env:
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          APPLE_APP_PASSWORD: ${{ secrets.APPLE_APP_PASSWORD }}
+        run: bash scripts/notarize.sh "$DMG"
+
+      - name: Checksums
+        # Plain file names, so `shasum -c SHA256SUMS.txt` works next to the downloaded DMG.
+        run: (cd dist && shasum -a 256 "$(basename "$DMG")" > SHA256SUMS.txt && cat SHA256SUMS.txt)
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            ${{ env.DMG }}
+            dist/SHA256SUMS.txt
+          generate_release_notes: true
+          prerelease: ${{ contains(steps.ver.outputs.version, '-') }}

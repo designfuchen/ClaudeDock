@@ -1,0 +1,22 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Security & Hygiene Check
+        run: bash scripts/security-check.sh
+      - name: Build app, CLI and tests (warnings are errors)
+        run: swift build --build-tests -Xswiftc -warnings-as-errors
+      - name: Test
+        run: swift test
+      - name: Build App Bundle (Apple silicon, unsigned)
+        env:
+          CLAUDEDOCK_ARCHS: arm64
+        run: bash scripts/build-app.sh

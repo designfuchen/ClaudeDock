@@ -1,0 +1,42 @@
+# Build artifacts
+.build/
+.swiftpm/
+dist/
+build/
+*.dmg
+*.pkg
+*.app/
+!Tests/Fixtures/*.app/
+
+# macOS / Editor
+.DS_Store
+*.xcuserstate
+*.xcworkspace/
+DerivedData/
+
+# Secrets & local configs (NEVER COMMIT)
+.env
+.env.*
+*.env
+*.key
+*.pem
+*.p12
+*secret*
+*token*
+*credential*
+profiles.json
+clash*.yaml
+!Packaging/**
+!Tests/**
+
+# Internal notes (not part of the public repo)
+HANDOFF.md
+docs/LAUNCH_POSTS.md
+
+# Never let the secret globs above hide real source files
+!Sources/**
+!scripts/**
+
+# Local engineering notes for my own tooling
+CLAUDE.md
+*.bak
