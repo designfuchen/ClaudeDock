@@ -42,7 +42,15 @@ I use different Claude accounts for different projects. Signing out of Desktop j
 You need **macOS 14 or later** and **Claude Desktop**. Install **Claude Code** if you want quota readouts or the Projects view.
 
 - **[Download the latest `.dmg`](https://github.com/designfuchen/ClaudeDock/releases/latest)** (~8 MB, Swift 6 + SwiftUI, zero third-party dependencies) and drag `ClaudeDock.app` into `/Applications`. I sign the app with a Developer ID and have it notarized by Apple, so it opens without a Gatekeeper warning and a copy you have downloaded keeps working.
-- **Homebrew cask:** coming soon.
+- **Homebrew:**
+
+  ```bash
+  brew tap designfuchen/tap
+  brew trust designfuchen/tap   # Homebrew 7+ asks you to trust third-party taps once
+  brew install --cask claudedock
+  ```
+
+  This also links the `claudedock` CLI. `brew uninstall --zap --cask claudedock` removes the app and `~/.claudedock`.
 - **From source:** see [Build from source](#build-from-source).
 
 > The app speaks English and Simplified Chinese and follows your system language. To pick one just for ClaudeDock: System Settings → General → Language & Region → Applications.

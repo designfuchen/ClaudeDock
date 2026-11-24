@@ -40,7 +40,15 @@
 - **直接下载安装包**：去 [Releases 下载最新 `.dmg`](https://github.com/designfuchen/ClaudeDock/releases/latest)，把 `ClaudeDock.app` 拖进「应用程序」即可。
   - 原生 Swift 6 + SwiftUI 编写，零第三方依赖，安装包约 8 MB。
   - 已使用我的 Apple Developer ID 签名并通过 Apple 公证——打开不会弹 Gatekeeper 警告，下到本地后可以一直稳稳用下去。
-- **Homebrew Cask**：即将上线。
+- **Homebrew**：
+
+  ```bash
+  brew tap designfuchen/tap
+  brew trust designfuchen/tap   # Homebrew 7 起，第三方 tap 需要先信任一次
+  brew install --cask claudedock
+  ```
+
+  会顺带链接 `claudedock` 命令行工具。`brew uninstall --zap --cask claudedock` 会删除 App 和 `~/.claudedock`。
 - **自己编译**：见下文 [从源码构建](#从源码构建)。
 
 ## 核心功能

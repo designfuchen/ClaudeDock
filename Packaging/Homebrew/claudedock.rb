@@ -4,15 +4,20 @@ cask "claudedock" do
 
   url "https://github.com/designfuchen/ClaudeDock/releases/download/v#{version}/ClaudeDock-#{version}-universal.dmg"
   name "ClaudeDock"
-  desc "Multi-account workbench for Claude Desktop and Claude Code"
+  desc "Run several Claude Desktop accounts side by side"
   homepage "https://github.com/designfuchen/ClaudeDock"
 
-  depends_on macos: ">= :sonoma"
+  livecheck do
+    url :url
+    strategy :github_latest
+  end
+
+  depends_on macos: :sonoma
 
   app "ClaudeDock.app"
   binary "#{appdir}/ClaudeDock.app/Contents/MacOS/claudedock"
 
-  zap trash: [
-    "~/.claudedock",
-  ]
+  uninstall quit: "io.claudedock.app"
+
+  zap trash: "~/.claudedock"
 end
